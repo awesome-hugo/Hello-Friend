@@ -25,7 +25,8 @@ jobs:
         with:
           # hugo-version: 'latest'
           # hugo-version: '0.128.0'
-          hugo-version: '0.120.0'
+          # hugo-version: '0.120.0'
+          hugo-version: '0.119.0'
           # extended: true
 
       - name: Build
