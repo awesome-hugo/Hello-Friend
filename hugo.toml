@@ -1,0 +1,4 @@
+baseURL = 'https://awesome-hugo.github.io/Hello-Friend/'
+languageCode = 'en-us'
+title = 'Hello Friend NG'
+theme = 'hello-friend-ng'
