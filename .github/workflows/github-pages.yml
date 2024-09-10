@@ -1,40 +1,32 @@
-name: GitHub Pages
+name: Deploy
 
 on:
   push:
     branches:
-      - main  # Set a branch to deploy
-  pull_request:
+      - master
 
 jobs:
-  deploy:
+  gh-pages:
     runs-on: ubuntu-latest
-    permissions:
-      contents: write
-      pages: write
-    concurrency:
-      group: ${{ github.workflow }}-${{ github.ref }}
     steps:
-      - uses: actions/checkout@v2
+      - name: Checkout
+        uses: actions/checkout@v4
         with:
-          submodules: true  # Fetch Hugo themes (true OR recursive)
-          fetch-depth: 0    # Fetch all history for .GitInfo and .Lastmod
-
-      - name: Setup Hugo
-        uses: peaceiris/actions-hugo@v2
-        with:
-          # hugo-version: 'latest'
-          # hugo-version: '0.128.0'
-          # hugo-version: '0.120.0'
-          hugo-version: '0.119.0'
-          # extended: true
+          submodules: true
+          fetch-depth: 0
 
       - name: Build
-        run: hugo --minify
+        uses: klakegg/actions-hugo@1.0.0
+        with:
+          image: ext-debian
+          env: production
+          command: --minify
 
-      - name: Deploy
+      - name: Push
         uses: peaceiris/actions-gh-pages@v3
-        if: ${{ github.ref == 'refs/heads/main' }}
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_dir: ./public
+          publish_branch: gh-pages
+          user_name: 'github-actions[bot]'
+          user_email: 'github-actions[bot]@users.noreply.github.com'
